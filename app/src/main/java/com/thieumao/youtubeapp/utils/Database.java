@@ -12,13 +12,25 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 
-   public Database(Context context) {
-       super(context, "thieumao.sqlite", null, 1);
-   }
+    private static Database instance = null;
+    private static String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS user (_id INTEGER PRIMARY KEY, username VARCHAR(200) NOT NULL UNIQUE, password VARCHAR(200) NOT NULL, fullname VARCHAR(200) )";
+    private static String sqlCreateHistoryTable = "CREATE TABLE IF NOT EXISTS history (_id INTEGER PRIMARY KEY, title VARCHAR(200) NOT NULL, idVideoYoutube VARCHAR(200) NOT NULL, idUser INTEGER NOT NULL)";
+
+    private Database(Context context) {
+        super(context, "thieumao.sqlite", null, 1);
+    }
+
+    public static Database getInstance(Context context) {
+        if (instance == null) {
+            instance = new Database(context);
+            instance.queryData(sqlCreateUserTable);
+            instance.queryData(sqlCreateHistoryTable);
+        }
+        return  instance;
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     public Cursor getData(String sql) {
@@ -39,6 +51,6 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
+
 }
