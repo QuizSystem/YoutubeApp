@@ -6,15 +6,25 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.thieumao.youtubeapp.activity.PlaylistActivity;
+
 /**
  * Created by thieumao on 1/27/17.
  */
 
 public class Database extends SQLiteOpenHelper {
+//    String titleVideo = resultp.get(PlaylistActivity.title);
+//    String thumbnailsVideo = resultp.get(PlaylistActivity.thumbnails);
+//    String idVideo = resultp.get(PlaylistActivity.videoId);
 
     private static Database instance = null;
-    private static String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS user (_id INTEGER PRIMARY KEY, username VARCHAR(200) NOT NULL UNIQUE, password VARCHAR(200) NOT NULL, fullname VARCHAR(200) )";
-    private static String sqlCreateHistoryTable = "CREATE TABLE IF NOT EXISTS history (_id INTEGER PRIMARY KEY, title VARCHAR(200) NOT NULL, idVideoYoutube VARCHAR(200) NOT NULL, idUser INTEGER NOT NULL)";
+    private static String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS user " +
+            "(_id INTEGER PRIMARY KEY, username VARCHAR(200) NOT NULL UNIQUE, " +
+            "password VARCHAR(200) NOT NULL, fullname VARCHAR(200) )";
+    private static String sqlCreateHistoryTable = "CREATE TABLE IF NOT EXISTS history " +
+            "(_id INTEGER PRIMARY KEY, titleVideo VARCHAR(200), thumbnailsVideo VARCHAR(200), " +
+            "idVideo VARCHAR(200) NOT NULL, idUser INTEGER NOT NULL, " +
+            "UNIQUE (idVideo, idUser) ON CONFLICT REPLACE)";
 
     private Database(Context context) {
         super(context, "thieumao.sqlite", null, 1);

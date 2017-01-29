@@ -1,9 +1,12 @@
 package com.thieumao.youtubeapp.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -38,16 +41,19 @@ public class PlaylistActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> arrPlaylist;
     String idPlaylist = "PLxW5jnOmXXdx0aFqeQCEblrVouPvb1voZ";
     String titlePlaylist = "Nhật ký Hannah";
+    int idUser = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
         arrPlaylist = new ArrayList<HashMap<String, String>>();
-        lvPlaylist = (ListView) findViewById(R.id.listviewPlaylist);
+        lvPlaylist = (ListView) findViewById(R.id.lvPlaylist);
         loadmore = new ProgressBar(this);
         lvPlaylist.addFooterView(loadmore);
-        adapterPlaylist = new PlaylistAdapter(PlaylistActivity.this, arrPlaylist);
+        Bundle bundle = getIntent().getExtras();
+        idUser = bundle.getInt("id");
+        adapterPlaylist = new PlaylistAdapter(PlaylistActivity.this, arrPlaylist, idUser);
         lvPlaylist.setAdapter(adapterPlaylist);
         lvPlaylist.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -64,7 +70,6 @@ public class PlaylistActivity extends AppCompatActivity {
         if (Funs.isNetworkAvailable(this)) {
             try {
                 setTitle(titlePlaylist);
-
                 try {
                     new AsynLoad().execute(idPlaylist);
                 } catch (Exception e) {
@@ -152,5 +157,21 @@ public class PlaylistActivity extends AppCompatActivity {
             super.onPostExecute(result);
         }
     }
-    
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_history, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_history) {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            intent.putExtra("id", idUser);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

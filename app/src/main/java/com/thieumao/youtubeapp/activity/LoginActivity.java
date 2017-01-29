@@ -30,7 +30,9 @@ public class LoginActivity extends AppCompatActivity {
         Cursor kq = Database.getInstance(this).getData("SELECT * FROM user where username = '" + username + "' AND password = '" + password + "';");
         if (kq.moveToNext() == true) {
             Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
+            int id = Integer.valueOf(kq.getString(0).toString());
             Intent intent = new Intent(this, PlaylistActivity.class);
+            intent.putExtra("id", id);
             startActivity(intent);
         } else {
             Toast.makeText(this, "Login Failure", Toast.LENGTH_SHORT).show();

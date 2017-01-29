@@ -1,7 +1,7 @@
 package com.thieumao.youtubeapp.adapter;
 
 /**
- * Created by thieumao on 1/22/17.
+ * Created by thieumao on 1/29/17.
  */
 
 import android.content.Context;
@@ -17,24 +17,21 @@ import com.thieumao.youtubeapp.R;
 import com.thieumao.youtubeapp.activity.PlayerActivity;
 import com.thieumao.youtubeapp.activity.PlaylistActivity;
 import com.thieumao.youtubeapp.image.ImageLoader;
-import com.thieumao.youtubeapp.utils.Database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PlaylistAdapter extends BaseAdapter {
+public class HistoryAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
     Context context;
     ArrayList<HashMap<String, String>> data;
-    int id;
     ImageLoader imageLoader;
     HashMap<String, String> resultp = new HashMap<String, String>();
 
-    public PlaylistAdapter(Context context, ArrayList<HashMap<String, String>> arraylist, int id) {
+    public HistoryAdapter(Context context, ArrayList<HashMap<String, String>> arraylist) {
         this.context = context;
         this.data = arraylist;
-        this.id = id;
         imageLoader = new ImageLoader(context);
     }
 
@@ -68,12 +65,7 @@ public class PlaylistAdapter extends BaseAdapter {
             @Override
             public void onClick(View arg0) {
                 resultp = data.get(position);
-                String titleVideo = resultp.get(PlaylistActivity.title);
-                String thumbnailsVideo = resultp.get(PlaylistActivity.thumbnails);
                 String idVideo = resultp.get(PlaylistActivity.videoId);
-                String insert = "INSERT INTO history VALUES(null, '" + titleVideo +"', '" +
-                        thumbnailsVideo + "', '" + idVideo + "', '" + id + "')";
-                Database.getInstance(context).queryData(insert);
                 Intent intent = new Intent(context, PlayerActivity.class);
                 intent.putExtra("idVideo", idVideo);
                 context.startActivity(intent);
