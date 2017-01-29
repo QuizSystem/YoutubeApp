@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlog="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".cat.CatActivity">
+    <item
+        android:id="@+id/action_history"
+        android:orderInCategory="100"
+        android:title="History"
+        vlog:showAsAction="always"/>
+</menu>
